@@ -5,4 +5,6 @@ require 'conreality/asset'
 require 'conreality/camera'
 require 'conreality/player'
 
+require 'conreality/theater'
+
 require 'conreality/client'
