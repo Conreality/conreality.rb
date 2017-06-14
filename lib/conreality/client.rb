@@ -21,6 +21,25 @@ module Conreality
 
     # @!endgroup
 
+    # @!group Theaters
+
+    ##
+    # Returns the theater identified by the given UUID.
+    #
+    # @param  uuid [String] the theater's UUID
+    # @return [Theater] the theater
+    def find_theater(uuid)
+      Theater.new(uuid, self)
+    end
+
+    ##
+    # @todo
+    def each_theater(&block)
+      # TODO
+    end
+
+    # @!endgroup
+
     # @!group Objects
 
     ##
