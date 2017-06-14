@@ -6,11 +6,12 @@ env:
   - CI=true
 rvm:
   - 2.2
-  - jruby
-  - rbx-2
+  - jruby-head
 cache: bundler
 matrix:
   fast_finish: true
   allow_failures:
-    - rvm: jruby
-    - rvm: rbx-2
+    - rvm: jruby-head
+before_install:
+  - gem install bundler # for jruby-head
+  - gem update bundler
