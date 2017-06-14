@@ -40,6 +40,42 @@ module Conreality
 
     # @!endgroup
 
+    # @!group Predicates
+
+    ##
+    # Checks whether this object is an asset.
+    #
+    # @return [Boolean]
+    def is_asset?
+      nil # TODO
+    end
+
+    ##
+    # Checks whether this object is a camera.
+    #
+    # @return [Boolean]
+    def is_camera?
+      nil # TODO
+    end
+
+    ##
+    # Checks whether this object is a player.
+    #
+    # @return [Boolean]
+    def is_player?
+      nil # TODO
+    end
+
+    ##
+    # Checks whether this object is a target.
+    #
+    # @return [Boolean]
+    def is_target?
+      nil # TODO
+    end
+
+    # @!endgroup
+
     # @!group Messaging
 
     ##
