@@ -19,13 +19,13 @@ module Conreality
 
     ##
     # @param  predicate [String] a predicate string
-    # @param  subject   [UUID]   the source object
-    # @param  object    [UUID]   the target object, if any
+    # @param  subject   [Object, UUID] the source object
+    # @param  object    [Object, UUID, nil] the target object, if any
     # @return [Integer] the event ID
     def send_event(predicate, subject, object = nil)
       predicate = predicate.to_s
-      subject   = subject.to_s
-      object    = object ? object.to_s : nil
+      subject   = (subject.respond_to?(:uuid) ? subject.uuid : subject).to_s
+      object    = object ? (object.respond_to?(:uuid) ? object.uuid : object).to_s : nil
 
       result = self.call_proc_with_result('public.event_send($1, $2, $3)', subject, predicate, object)
       result ? result.to_i : nil
@@ -36,12 +36,13 @@ module Conreality
     # @!group Messaging
 
     ##
-    # @param  sender    [UUID]   the sending asset or player
+    # @param  sender    [Object, UUID] the sending asset or player
     # @param  text      [String] the message contents as text
     # @return [Integer] the message ID
     # @todo   Support for audio messages.
     def send_message(sender, text)
-      sender, text = sender.to_s, text.to_s
+      sender = (sender.respond_to?(:uuid) ? sender.uuid : sender).to_s
+      text = text.to_s
 
       result = self.call_proc_with_result('public.message_send($1, $2)', sender, text)
       result ? result.to_i : nil
@@ -54,7 +55,7 @@ module Conreality
     ##
     # @param  signature [String]
     # @param  arguments [Array]
-    # @return [Object]
+    # @return [::Object]
     def call_proc_with_result(signature, *arguments)
       self.call_proc(signature, *arguments) do |results|
         results.getvalue(0, 0)
