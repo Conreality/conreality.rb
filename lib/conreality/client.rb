@@ -1,4 +1,5 @@
 require 'pg'
+require 'uuid'
 
 module Conreality
   ##
