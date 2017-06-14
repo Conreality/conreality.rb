@@ -80,7 +80,7 @@ module Conreality
 
     ##
     # @param  text      [String] the message contents as text
-    # @return [Integer] the message ID
+    # @return [Message] the sent message
     def send_message(text)
       @client.send_message(self, text)
     end

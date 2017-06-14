@@ -46,14 +46,14 @@ module Conreality
     # @param  predicate [String] a predicate string
     # @param  subject   [Object, UUID] the source object
     # @param  object    [Object, UUID, nil] the target object, if any
-    # @return [Integer] the event ID
+    # @return [Event]   the sent event
     def send_event(predicate, subject, object = nil)
       predicate = predicate.to_s
       subject   = (subject.respond_to?(:uuid) ? subject.uuid : subject).to_s
       object    = object ? (object.respond_to?(:uuid) ? object.uuid : object).to_s : nil
 
       result = self.call_proc_with_result('public.event_send($1, $2, $3)', subject, predicate, object)
-      result ? result.to_i : nil
+      result ? Event.new(result.to_i, self) : nil
     end
 
     # @!endgroup
@@ -63,14 +63,14 @@ module Conreality
     ##
     # @param  sender    [Object, UUID] the sending asset or player
     # @param  text      [String] the message contents as text
-    # @return [Integer] the message ID
+    # @return [Message] the sent message
     # @todo   Support for audio messages.
     def send_message(sender, text)
       sender = (sender.respond_to?(:uuid) ? sender.uuid : sender).to_s
       text = text.to_s
 
       result = self.call_proc_with_result('public.message_send($1, $2)', sender, text)
-      result ? result.to_i : nil
+      result ? Message.new(result.to_i, self) : nil
     end
 
     # @!endgroup
