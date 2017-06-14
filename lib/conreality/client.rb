@@ -15,6 +15,25 @@ module Conreality
       @conn = PG.connect(options)
     end
 
+    # @!group Sessions
+
+    # TODO
+
+    # @!endgroup
+
+    # @!group Objects
+
+    ##
+    # Returns the object identified by the given UUID.
+    #
+    # @param  uuid [String] the object's UUID
+    # @return [Object] the object
+    def get_object(uuid)
+      Object.new(uuid, self)
+    end
+
+    # @!endgroup
+
     # @!group Events
 
     ##
