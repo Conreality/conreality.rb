@@ -12,6 +12,8 @@ module Conreality
       @uuid, @client = uuid.to_s, client
     end
 
+    # @!group Casts
+
     ##
     # Returns this object cast to an asset.
     #
@@ -35,5 +37,18 @@ module Conreality
     def as_player
       Player.new(@uuid, @client)
     end
+
+    # @!endgroup
+
+    # @!group Messaging
+
+    ##
+    # @param  text      [String] the message contents as text
+    # @return [Integer] the message ID
+    def send_message(text)
+      @client.send_message(self, text)
+    end
+
+    # @!endgroup
   end # Object
 end # Conreality
