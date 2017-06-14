@@ -28,8 +28,14 @@ module Conreality
     #
     # @param  uuid [String] the object's UUID
     # @return [Object] the object
-    def get_object(uuid)
+    def find_object(uuid)
       Object.new(uuid, self)
+    end
+
+    ##
+    # @todo
+    def each_object(&block)
+      # TODO
     end
 
     # @!endgroup
