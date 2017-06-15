@@ -24,7 +24,7 @@ module Conreality
     # @param uuid   [#to_s]
     # @param client [Client]
     def initialize(uuid, client)
-      super(:uuid)
+      super('public.theater', :uuid)
       @uuid, @client = uuid.to_s, client
     end
 

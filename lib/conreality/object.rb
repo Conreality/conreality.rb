@@ -66,7 +66,7 @@ module Conreality
     # @param uuid   [#to_s]
     # @param client [Client]
     def initialize(uuid, client)
-      super(:uuid)
+      super('public.object', :uuid)
       @uuid, @client = uuid.to_s, client
     end
 

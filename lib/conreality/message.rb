@@ -36,7 +36,7 @@ module Conreality
     # @param id     [#to_i]
     # @param client [Client]
     def initialize(id, client)
-      super(:id)
+      super('public.message', :id)
       @id, @client = id.to_i, client
     end
   end # Message

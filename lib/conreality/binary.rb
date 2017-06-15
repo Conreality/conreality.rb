@@ -30,7 +30,7 @@ module Conreality
     # @param id     [#to_i]
     # @param client [Client]
     def initialize(id, client)
-      super(:id)
+      super('public.binary', :id)
       @id, @client = id.to_i, client
     end
   end # Binary
