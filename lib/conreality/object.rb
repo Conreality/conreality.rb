@@ -1,7 +1,7 @@
 module Conreality
   ##
   # Represents a Conreality object.
-  class Object
+  class Object < Database::Row
     ##
     # The object's unique identifier.
     #
@@ -66,6 +66,7 @@ module Conreality
     # @param uuid   [#to_s]
     # @param client [Client]
     def initialize(uuid, client)
+      super(:uuid)
       @uuid, @client = uuid.to_s, client
     end
 

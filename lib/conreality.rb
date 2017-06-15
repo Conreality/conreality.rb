@@ -1,5 +1,6 @@
 require 'conreality/version'
 
+require 'conreality/database'
 require 'conreality/object'
 require 'conreality/asset'
 require 'conreality/camera'

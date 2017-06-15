@@ -1,7 +1,7 @@
 module Conreality
   ##
   # Represents a Conreality message.
-  class Message
+  class Message < Database::Row
     ##
     # The message's sequential identifier.
     #
@@ -36,6 +36,7 @@ module Conreality
     # @param id     [#to_i]
     # @param client [Client]
     def initialize(id, client)
+      super(:id)
       @id, @client = id.to_i, client
     end
   end # Message

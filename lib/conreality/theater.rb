@@ -1,7 +1,7 @@
 module Conreality
   ##
   # Represents a Conreality theater of operations.
-  class Theater
+  class Theater < Database::Row
     ##
     # The theater's unique identifier.
     #
@@ -24,6 +24,7 @@ module Conreality
     # @param uuid   [#to_s]
     # @param client [Client]
     def initialize(uuid, client)
+      super(:uuid)
       @uuid, @client = uuid.to_s, client
     end
 

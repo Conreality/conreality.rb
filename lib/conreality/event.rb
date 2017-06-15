@@ -1,7 +1,7 @@
 module Conreality
   ##
   # Represents a Conreality event.
-  class Event
+  class Event < Database::Row
     ##
     # The event's sequential identifier.
     #
@@ -36,6 +36,7 @@ module Conreality
     # @param id     [#to_i]
     # @param client [Client]
     def initialize(id, client)
+      super(:id)
       @id, @client = id.to_i, client
     end
   end # Event
