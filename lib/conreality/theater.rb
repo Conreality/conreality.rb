@@ -2,8 +2,23 @@ module Conreality
   ##
   # Represents a Conreality theater of operations.
   class Theater
-    # @return [String] the theater's UUID
+    ##
+    # The theater's unique identifier.
+    #
+    # @return [String]
     attr_reader :uuid
+
+    ##
+    # The theater's designated label.
+    #
+    # @return [String]
+    attr_reader :label
+
+    ##
+    # The theater's origin location (as GPS coordinates).
+    #
+    # @return [?]
+    attr_reader :location
 
     ##
     # @param uuid   [#to_s]
