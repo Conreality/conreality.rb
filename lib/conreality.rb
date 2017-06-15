@@ -5,6 +5,7 @@ require 'conreality/asset'
 require 'conreality/camera'
 require 'conreality/player'
 
+require 'conreality/binary'
 require 'conreality/event'
 require 'conreality/message'
 require 'conreality/theater'
