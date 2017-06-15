@@ -10,3 +10,4 @@ require 'conreality/message'
 require 'conreality/theater'
 
 require 'conreality/client'
+require 'conreality/session'

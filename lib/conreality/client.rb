@@ -9,17 +9,18 @@ module Conreality
     attr_accessor :conn
 
     ##
+    # The current session.
+    #
+    # @return [Session]
+    attr_accessor :session
+
+    ##
     # @param  options [Hash]
     # @option options [String] :dbname
     def initialize(options = {})
       @conn = PG.connect(options)
+      @session = Session.new(self)
     end
-
-    # @!group Sessions
-
-    # TODO
-
-    # @!endgroup
 
     # @!group Theaters
 
