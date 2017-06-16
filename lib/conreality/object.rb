@@ -151,7 +151,9 @@ module Conreality
     # @param  text      [String] the message contents as text
     # @return [Message] the sent message
     def send_message(text)
-      @client.send_message(self, text)
+      @client.open do |transaction| # FIXME
+        transaction.send_message(self, text)
+      end
     end
 
     # @!endgroup
