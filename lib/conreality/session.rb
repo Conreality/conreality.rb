@@ -13,7 +13,7 @@ module Conreality
     #
     # @return [void]
     def start!
-      @client.call_proc_with_result('public.session_start()')
+      @client.call_proc_with_result('public.session_start()::text')
     end
 
     ##
@@ -21,7 +21,7 @@ module Conreality
     #
     # @return [void]
     def terminate!
-      @client.call_proc_with_result('public.session_terminate()')
+      @client.call_proc_with_result('public.session_terminate()::text')
     end
   end # Session
 end # Conreality

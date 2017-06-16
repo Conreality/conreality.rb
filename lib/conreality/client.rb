@@ -19,6 +19,7 @@ module Conreality
     # @option options [String] :dbname
     def initialize(options = {})
       @conn = PG.connect(options)
+      @conn.type_map_for_results = PG::BasicTypeMapForResults.new(@conn)
       @session = Session.new(self)
     end
 
