@@ -23,6 +23,14 @@ module Conreality
       @session = Session.new(self)
     end
 
+    ##
+    # Returns a developer-friendly representation of this client.
+    #
+    # @return [String]
+    def inspect
+      sprintf("#<%s:%#0x>", self.class.name, self.__id__)
+    end
+
     # @!group Theaters
 
     ##

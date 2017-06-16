@@ -36,5 +36,13 @@ module Conreality
       super(client)
       @id = id.to_i
     end
+
+    ##
+    # Returns a developer-friendly representation of this binary.
+    #
+    # @return [String]
+    def inspect
+      sprintf("#<%s:%#0x(id: %s)>", self.class.name, self.__id__, @id)
+    end
   end # Binary
 end # Conreality

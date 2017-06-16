@@ -32,6 +32,14 @@ module Conreality
     end
 
     ##
+    # Returns a developer-friendly representation of this theater.
+    #
+    # @return [String]
+    def inspect
+      sprintf("#<%s:%#0x(uuid: %s)>", self.class.name, self.__id__, @uuid)
+    end
+
+    ##
     # @todo
     def each_object(&block)
       # TODO

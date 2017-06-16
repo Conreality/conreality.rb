@@ -73,6 +73,14 @@ module Conreality
       @uuid = uuid.to_s
     end
 
+    ##
+    # Returns a developer-friendly representation of this object.
+    #
+    # @return [String]
+    def inspect
+      sprintf("#<%s:%#0x(uuid: %s)>", self.class.name, self.__id__, @uuid)
+    end
+
     # @!group Casts
 
     ##

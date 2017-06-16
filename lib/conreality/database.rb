@@ -17,13 +17,13 @@ module Conreality
 
       ##
       # @return [Symbol]
-      def self.table
+      def self.table_name
         self.const_get(:TABLE)
       end
 
       ##
       # @return [Symbol]
-      def self.key
+      def self.key_attr
         self.const_get(:KEY)
       end
 
@@ -78,7 +78,7 @@ module Conreality
               self.set!(attr_name, value)
             when Database::Row
               klass = find_class(class_name)
-              key_attr = klass.key
+              key_attr = klass.key_attr
               key = value.instance_variable_get(:"@#{key_attr}")
               self.set!(attr_name, key)
             else
@@ -92,7 +92,7 @@ module Conreality
       #
       # @return [Integer, String]
       def key
-        self.instance_variable_get(:"@#{self.class.key}").freeze
+        self.instance_variable_get(:"@#{self.class.key_attr}").freeze
       end
 
       ##
@@ -103,10 +103,10 @@ module Conreality
       # @return [any]
       # @raise  [NoSuchRow] if the `SELECT` query failed to match a row and `default_value` was not given
       def get(name, default_value = NOTHING)
-        table, key_attr, key = self.class.table, self.class.key, self.key
-        @client.exec_with_params("SELECT #{q(name)} FROM public.#{q(table)} WHERE #{q(key_attr)} = $1 LIMIT 1", key) do |result|
+        table_name, key_attr, key = self.class.table_name, self.class.key_attr, self.key
+        @client.exec_with_params("SELECT #{q(name)} FROM public.#{q(table_name)} WHERE #{q(key_attr)} = $1 LIMIT 1", key) do |result|
           if result.num_tuples.zero? && default_value.equal?(NOTHING)
-            raise NoSuchRow, "Failed to select row <<#{key}>> from table '#{table}'"
+            raise NoSuchRow, "Failed to select row <<#{key}>> from table '#{table_name}'"
           end
           result.num_tuples.zero? ? default_value : result.getvalue(0, 0)
         end
@@ -120,10 +120,10 @@ module Conreality
       # @return [void]
       # @raise  [NoSuchRow] if the `UPDATE` query failed to match a row
       def set!(name, value)
-        table, key_attr, key = self.class.table, self.class.key, self.key
-        @client.exec_with_params("UPDATE public.#{q(table)} SET #{q(name)} = $1 WHERE #{q(key_attr)} = $2", value, key) do |result|
+        table_name, key_attr, key = self.class.table_name, self.class.key_attr, self.key
+        @client.exec_with_params("UPDATE public.#{q(table_name)} SET #{q(name)} = $1 WHERE #{q(key_attr)} = $2", value, key) do |result|
           if result.cmd_tuples.zero?
-            raise NoSuchRow, "Failed to update row <<#{key}>> in table '#{table}'"
+            raise NoSuchRow, "Failed to update row <<#{key}>> in table '#{table_name}'"
           end
         end
       end
