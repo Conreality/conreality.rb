@@ -14,7 +14,7 @@ module Conreality
     ##
     # The event's timestamp (in Zulu time).
     #
-    # @return [Date]
+    # @return [Time]
     attr_reader :timestamp
 
     ##
@@ -28,12 +28,14 @@ module Conreality
     #
     # @return [Object]
     attr_reader :subject
+    attr_wrapper :subject, :Object
 
     ##
     # The object (i.e., target) of the predicate.
     #
     # @return [Object]
     attr_reader :object
+    attr_wrapper :object, :Object
 
     ##
     # @param client [Client]

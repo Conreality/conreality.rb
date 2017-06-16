@@ -14,7 +14,7 @@ module Conreality
     ##
     # The message's timestamp (in Zulu time).
     #
-    # @return [Date]
+    # @return [Time]
     attr_reader :timestamp
 
     ##
@@ -22,6 +22,7 @@ module Conreality
     #
     # @return [Player, Asset]
     attr_reader :sender
+    attr_wrapper :sender, :Object
 
     ##
     # The message's contents as text.
@@ -34,7 +35,7 @@ module Conreality
     #
     # @return [Binary]
     attr_reader :audio
-    attr_binary :audio
+    attr_wrapper :audio, :Binary
 
     ##
     # @param client [Client]

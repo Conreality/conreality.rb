@@ -28,7 +28,7 @@ module Conreality
     #
     # @return [Binary]
     attr_accessor :avatar
-    attr_binary   :avatar
+    attr_wrapper :avatar, :Binary
 
     ##
     # The asset's deployed software version.
