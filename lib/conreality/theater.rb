@@ -2,6 +2,9 @@ module Conreality
   ##
   # Represents a Conreality theater of operations.
   class Theater < Database::Row
+    TABLE = :theater
+    KEY   = :uuid
+
     ##
     # The theater's unique identifier.
     #
@@ -21,11 +24,11 @@ module Conreality
     attr_reader :location
 
     ##
-    # @param uuid   [#to_s]
     # @param client [Client]
-    def initialize(uuid, client)
-      super('public.theater', :uuid)
-      @uuid, @client = uuid.to_s, client
+    # @param uuid   [#to_s]
+    def initialize(client, uuid)
+      super(client)
+      @uuid = uuid.to_s
     end
 
     ##

@@ -2,6 +2,9 @@ module Conreality
   ##
   # Represents a Conreality event.
   class Event < Database::Row
+    TABLE = :event
+    KEY   = :id
+
     ##
     # The event's sequential identifier.
     #
@@ -33,11 +36,11 @@ module Conreality
     attr_reader :object
 
     ##
-    # @param id     [#to_i]
     # @param client [Client]
-    def initialize(id, client)
-      super('public.event', :id)
-      @id, @client = id.to_i, client
+    # @param id     [#to_i]
+    def initialize(client, id)
+      super(client)
+      @id = id.to_i
     end
   end # Event
 end # Conreality

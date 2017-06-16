@@ -2,6 +2,9 @@ module Conreality
   ##
   # Represents a Conreality message.
   class Message < Database::Row
+    TABLE = :message
+    KEY   = :id
+
     ##
     # The message's sequential identifier.
     #
@@ -33,11 +36,11 @@ module Conreality
     attr_reader :audio
 
     ##
-    # @param id     [#to_i]
     # @param client [Client]
-    def initialize(id, client)
-      super('public.message', :id)
-      @id, @client = id.to_i, client
+    # @param id     [#to_i]
+    def initialize(client, id)
+      super(client)
+      @id = id.to_i
     end
   end # Message
 end # Conreality

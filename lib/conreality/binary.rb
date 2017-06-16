@@ -2,6 +2,9 @@ module Conreality
   ##
   # Represents a Conreality binary.
   class Binary < Database::Row
+    TABLE = :binary
+    KEY   = :id
+
     ##
     # The binary's sequential identifier.
     #
@@ -27,11 +30,11 @@ module Conreality
     attr_reader :data
 
     ##
-    # @param id     [#to_i]
     # @param client [Client]
-    def initialize(id, client)
-      super('public.binary', :id)
-      @id, @client = id.to_i, client
+    # @param id     [#to_i]
+    def initialize(client, id)
+      super(client)
+      @id = id.to_i
     end
   end # Binary
 end # Conreality

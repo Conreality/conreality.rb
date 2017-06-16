@@ -2,6 +2,9 @@ module Conreality
   ##
   # Represents a Conreality asset.
   class Asset < Object
+    TABLE = :asset
+    KEY   = :uuid
+
     ##
     # The asset's nickname.
     #
@@ -33,10 +36,10 @@ module Conreality
     attr_reader :version
 
     ##
-    # @param uuid   [#to_s]
     # @param client [Client]
-    def initialize(uuid, client)
-      super(uuid, client)
+    # @param uuid   [#to_s]
+    def initialize(client, uuid)
+      super(client, uuid)
     end
   end # Asset
 end # Conreality

@@ -30,7 +30,7 @@ module Conreality
     # @param  uuid [String] the theater's UUID
     # @return [Theater] the theater
     def find_theater(uuid)
-      Theater.new(uuid, self)
+      Theater.new(self, uuid)
     end
 
     ##
@@ -49,7 +49,7 @@ module Conreality
     # @param  uuid [String] the object's UUID
     # @return [Object] the object
     def find_object(uuid)
-      Object.new(uuid, self)
+      Object.new(self, uuid)
     end
 
     ##
@@ -73,7 +73,7 @@ module Conreality
       object    = object ? (object.respond_to?(:uuid) ? object.uuid : object).to_s : nil
 
       result = self.call_proc_with_result('public.event_send($1, $2, $3)', subject, predicate, object)
-      result ? Event.new(result.to_i, self) : nil
+      result ? Event.new(self, result.to_i) : nil
     end
 
     # @!endgroup
@@ -90,7 +90,7 @@ module Conreality
       text = text.to_s
 
       result = self.call_proc_with_result('public.message_send($1, $2)', sender, text)
-      result ? Message.new(result.to_i, self) : nil
+      result ? Message.new(self, result.to_i) : nil
     end
 
     # @!endgroup
@@ -112,7 +112,15 @@ module Conreality
     # @param  arguments [Array]
     # @return [PG::Result]
     def call_proc(signature, *arguments, &block)
-      @conn.exec_params("SELECT #{signature}", arguments, &block)
+      exec_with_params("SELECT #{signature}", *arguments, &block)
+    end
+
+    ##
+    # @param  query [String]
+    # @param  arguments [Array]
+    # @return [PG::Result]
+    def exec_with_params(query, *arguments, &block)
+      @conn.exec_params(query, arguments, 0, &block)
     end
 
     # @!endgroup

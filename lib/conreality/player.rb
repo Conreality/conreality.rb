@@ -2,6 +2,9 @@ module Conreality
   ##
   # Represents a Conreality player.
   class Player < Object
+    TABLE = :player
+    KEY   = :uuid
+
     ##
     # The player's nickname.
     #
@@ -33,10 +36,10 @@ module Conreality
     attr_reader :language
 
     ##
-    # @param uuid   [#to_s]
     # @param client [Client]
-    def initialize(uuid, client)
-      super(uuid, client)
+    # @param uuid   [#to_s]
+    def initialize(client, uuid)
+      super(client, uuid)
     end
 
     ##

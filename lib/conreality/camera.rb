@@ -2,6 +2,9 @@ module Conreality
   ##
   # Represents a Conreality camera.
   class Camera < Object
+    TABLE = :camera
+    KEY   = :uuid
+
     ##
     # The camera's resolution (in 2D pixels).
     #
@@ -27,10 +30,10 @@ module Conreality
     attr_reader :fnumber
 
     ##
-    # @param uuid   [#to_s]
     # @param client [Client]
-    def initialize(uuid, client)
-      super(uuid, client)
+    # @param uuid   [#to_s]
+    def initialize(client, uuid)
+      super(client, uuid)
     end
   end # Camera
 end # Conreality

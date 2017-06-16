@@ -2,6 +2,9 @@ module Conreality
   ##
   # Represents a Conreality object.
   class Object < Database::Row
+    TABLE = :object
+    KEY   = :uuid
+
     ##
     # The object's unique identifier.
     #
@@ -63,11 +66,11 @@ module Conreality
     attr_reader :color
 
     ##
-    # @param uuid   [#to_s]
     # @param client [Client]
-    def initialize(uuid, client)
-      super('public.object', :uuid)
-      @uuid, @client = uuid.to_s, client
+    # @param uuid   [#to_s]
+    def initialize(client, uuid)
+      super(client)
+      @uuid = uuid.to_s
     end
 
     # @!group Casts
@@ -77,7 +80,7 @@ module Conreality
     #
     # @return [Asset]
     def as_asset
-      Asset.new(@uuid, @client)
+      Asset.new(@client, @uuid)
     end
 
     ##
@@ -85,7 +88,7 @@ module Conreality
     #
     # @return [Camera]
     def as_camera
-      Camera.new(@uuid, @client)
+      Camera.new(@client, @uuid)
     end
 
     ##
@@ -93,7 +96,7 @@ module Conreality
     #
     # @return [Player]
     def as_player
-      Player.new(@uuid, @client)
+      Player.new(@client, @uuid)
     end
 
     # @!endgroup
