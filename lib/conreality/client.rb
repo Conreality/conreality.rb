@@ -31,6 +31,18 @@ module Conreality
       sprintf("#<%s:%#0x>", self.class.name, self.__id__)
     end
 
+    ##
+    # @yield  [transaction]
+    # @yieldparam  transaction [Database::Transaction]
+    # @yieldreturn [void]
+    # @return [void]
+    def open(&block)
+      @conn.transaction do |_|
+        tx = Database::Transaction.new(self)
+        block.call(tx)
+      end
+    end
+
     # @!group Theaters
 
     ##

@@ -7,7 +7,7 @@ module Conreality
     class NoSuchRow < RuntimeError; end
 
     ##
-    # Represents a database row.
+    # Encapsulates a database row.
     class Row
       ##
       # @param client [Client]
@@ -139,5 +139,15 @@ module Conreality
         end
       end
     end # Row
+
+    ##
+    # Encapsulates a database transaction.
+    class Transaction
+      ##
+      # @param client [Client]
+      def initialize(client)
+        @client = client
+      end
+    end # Transaction
   end # Database
 end # Conreality
