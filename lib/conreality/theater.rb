@@ -44,5 +44,29 @@ module Conreality
     def each_object(&block)
       # TODO
     end
+
+    ##
+    # @todo
+    def each_asset(&block)
+      # TODO
+    end
+
+    ##
+    # @todo
+    def each_camera(&block)
+      # TODO
+    end
+
+    ##
+    # @todo
+    def each_player(&block)
+      # TODO
+    end
+
+    ##
+    # @todo
+    def each_target(&block)
+      # TODO
+    end
   end # Theater
 end # Conreality
