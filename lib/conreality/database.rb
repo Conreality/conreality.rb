@@ -1,6 +1,11 @@
 module Conreality
   ##
   module Database
+    NOTHING = Object.new.freeze
+
+    ##
+    class NoSuchRow < RuntimeError; end
+
     ##
     # Represents a database row.
     class Row
@@ -23,60 +28,59 @@ module Conreality
       end
 
       ##
-      # @param name [Symbol] the attribute name
+      # @param attr_name [Symbol] the attribute name
       # @return [void]
-      def self.attr_reader(name)
-        var = :"@#{name}"
-        self.send(:define_method, name) do
-          if self.instance_variable_defined?(var)
-            self.instance_variable_get(var)
+      def self.attr_reader(attr_name)
+        attr_var = :"@#{attr_name}"
+        self.send(:define_method, attr_name) do
+          if self.instance_variable_defined?(attr_var)
+            self.instance_variable_get(attr_var)
           else
-            self.get(name)
+            self.get(attr_name)
           end
         end
       end
 
       ##
-      # @param name [Symbol] the attribute name
+      # @param attr_name [Symbol] the attribute name
       # @return [void]
-      def self.attr_writer(name)
-        var = :"@#{name}"
-        self.send(:define_method, "#{name}=") do |value|
-          self.set!(name, value)
-          if self.instance_variable_defined?(var)
-            self.instance_variable_set(var, value)
+      def self.attr_writer(attr_name)
+        attr_var = :"@#{attr_name}"
+        self.send(:define_method, "#{attr_name}=") do |value|
+          self.set!(attr_name, value)
+          if self.instance_variable_defined?(attr_var)
+            self.instance_variable_set(attr_var, value)
           end
         end
       end
 
       ##
-      # @param name [Symbol] the attribute name
+      # @param attr_name [Symbol] the attribute name
       # @return [void]
-      def self.attr_accessor(name)
-        self.attr_reader(name)
-        self.attr_writer(name)
+      def self.attr_accessor(attr_name)
+        self.attr_reader(attr_name)
+        self.attr_writer(attr_name)
       end
 
       ##
-      # @param name       [Symbol] the attribute name
+      # @param attr_name  [Symbol] the attribute name
       # @param class_name [Class, Symbol] the class name
       # @return [void]
-      def self.attr_wrapper(name, class_name)
-        var = :"@#{name}"
-        self.send(:define_method, name) do
+      def self.attr_wrapper(attr_name, class_name)
+        self.send(:define_method, attr_name) do
           klass = find_class(class_name)
-          key = self.get(name)
+          key = self.get(attr_name)
           key ? klass.new(@client, key) : nil
         end
-        self.send(:define_method, "#{name}=") do |value|
+        self.send(:define_method, "#{attr_name}=") do |value|
           case value
             when Integer
-              self.set!(name, value)
+              self.set!(attr_name, value)
             when Database::Row
               klass = find_class(class_name)
               key_attr = klass.key
               key = value.instance_variable_get(:"@#{key_attr}")
-              self.set!(name, key)
+              self.set!(attr_name, key)
             else
               raise TypeError, "expected Integer or Database::Row, got #{value.inspect}"
           end
@@ -94,25 +98,34 @@ module Conreality
       ##
       # Fetches the value of a field.
       #
-      # @param name [Symbol]
-      # @param default [String, Numeric, nil]
+      # @param  name [Symbol]
+      # @param  default_value [String, Numeric, nil]
       # @return [any]
-      def get(name, default = nil)
+      # @raise  [NoSuchRow] if the `SELECT` query failed to match a row and `default_value` was not given
+      def get(name, default_value = NOTHING)
         table, key_attr, key = self.class.table, self.class.key, self.key
         @client.exec_with_params("SELECT #{q(name)} FROM public.#{q(table)} WHERE #{q(key_attr)} = $1 LIMIT 1", key) do |result|
-          result.num_tuples.zero? ? default : result.getvalue(0, 0)
+          if result.num_tuples.zero? && default_value.equal?(NOTHING)
+            raise NoSuchRow, "Failed to select row <<#{key}>> from table '#{table}'"
+          end
+          result.num_tuples.zero? ? default_value : result.getvalue(0, 0)
         end
       end
 
       ##
       # Updates the value of a field.
       #
-      # @param name  [Symbol]
-      # @param value [String, Numeric, nil]
+      # @param  name [Symbol]
+      # @param  value [String, Numeric, nil]
       # @return [void]
+      # @raise  [NoSuchRow] if the `UPDATE` query failed to match a row
       def set!(name, value)
         table, key_attr, key = self.class.table, self.class.key, self.key
-        p [:set!, name, value, table, key_attr, key] # TODO
+        @client.exec_with_params("UPDATE public.#{q(table)} SET #{q(name)} = $1 WHERE #{q(key_attr)} = $2", value, key) do |result|
+          if result.cmd_tuples.zero?
+            raise NoSuchRow, "Failed to update row <<#{key}>> in table '#{table}'"
+          end
+        end
       end
 
     private
