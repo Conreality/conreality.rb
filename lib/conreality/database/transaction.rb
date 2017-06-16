@@ -73,7 +73,7 @@ module Conreality::Database
       subject   = (subject.respond_to?(:uuid) ? subject.uuid : subject).to_s
       object    = object ? (object.respond_to?(:uuid) ? object.uuid : object).to_s : nil
 
-      result = @client.call_proc_with_result('public.event_send($1, $2, $3)', subject, predicate, object)
+      result = @client.call_proc_with_result(:event_send, args: [subject, predicate, object])
       result ? Conreality::Event.new(@client, result.to_i) : nil
     end
 
@@ -97,7 +97,7 @@ module Conreality::Database
       sender = (sender.respond_to?(:uuid) ? sender.uuid : sender).to_s
       text = text.to_s
 
-      result = @client.call_proc_with_result('public.message_send($1, $2)', sender, text)
+      result = @client.call_proc_with_result(:message_send, args: [sender, text])
       result ? Conreality::Message.new(@client, result.to_i) : nil
     end
 

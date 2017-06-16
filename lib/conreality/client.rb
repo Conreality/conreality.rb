@@ -58,29 +58,50 @@ module Conreality
     # @!group Database interface
 
     ##
-    # @param  signature [String]
-    # @param  arguments [Array]
-    # @return [::Object]
-    def call_proc_with_result(signature, *arguments)
-      self.call_proc(signature, *arguments) do |results|
+    # @param  proc_name [#to_s]
+    # @param  args [Array]
+    # @param  cast [#to_s, nil]
+    # @return [any]
+    def call_proc_with_result(proc_name, args: [], cast: nil)
+      self.call_proc_by_name(proc_name, args: args, cast: cast) do |results|
         results.getvalue(0, 0)
       end
     end
 
     ##
-    # @param  signature [String]
-    # @param  arguments [Array]
-    # @return [PG::Result]
-    def call_proc(signature, *arguments, &block)
-      exec_with_params("SELECT #{signature}", *arguments, &block)
+    # @param  proc_name [#to_s]
+    # @param  args [Array]
+    # @param  cast [#to_s, nil]
+    # @return [any]
+    def call_proc_by_name(proc_name, args: [], cast: nil, &block)
+      proc_sig = "public.#{proc_name}("
+      case args
+        when Array
+          proc_sig << 1.upto(args.size).map { |i| "$#{i}" }.join(', ') unless args.empty?
+        when Hash
+          raise TypeError # TODO
+        else raise TypeError
+      end
+      proc_sig << ")"
+      self.call_proc_by_signature(proc_sig, args: args, cast: cast, &block)
+    end
+
+    ##
+    # @param  proc_sig [#to_s]
+    # @param  args [Array]
+    # @param  cast [#to_s, nil]
+    # @return [any]
+    def call_proc_by_signature(proc_sig, args: [], cast: nil, &block)
+      query_body = cast ? "#{proc_sig}::#{cast}" : proc_sig.to_s
+      self.exec_with_params("SELECT #{query_body}", *args, &block)
     end
 
     ##
     # @param  query [String]
-    # @param  arguments [Array]
+    # @param  args [Array]
     # @return [PG::Result]
-    def exec_with_params(query, *arguments, &block)
-      @conn.exec_params(query, arguments, 0, &block)
+    def exec_with_params(query, *args, &block)
+      @conn.exec_params(query, args, 0, &block)
     end
 
     # @!endgroup
