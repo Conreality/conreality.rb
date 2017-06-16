@@ -24,6 +24,7 @@ module Conreality
       @conn = PG.connect(options)
       @conn.type_map_for_results = PG::BasicTypeMapForResults.new(@conn)
       @session = Session.new(self)
+      @session.start!
     end
 
     ##
