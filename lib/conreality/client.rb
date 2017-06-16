@@ -74,7 +74,7 @@ module Conreality
     # @param  cast [#to_s, nil]
     # @return [any]
     def call_proc_by_name(proc_name, args: [], cast: nil, &block)
-      proc_sig = "public.#{proc_name}("
+      proc_sig = "#{q(Database::SCHEMA)}.#{q(proc_name)}("
       case args
         when Array
           proc_sig << 1.upto(args.size).map { |i| "$#{i}" }.join(', ') unless args.empty?
@@ -105,5 +105,9 @@ module Conreality
     end
 
     # @!endgroup
+
+  private
+
+    def q(s); @conn.quote_ident(s.to_s); end
   end # Client
 end # Conreality

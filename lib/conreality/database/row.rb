@@ -2,6 +2,8 @@ module Conreality::Database
   ##
   # Encapsulates a database row.
   class Row
+    SCHEMA = Conreality::Database::SCHEMA
+
     ##
     # @param client [Client]
     def initialize(client)
@@ -97,7 +99,7 @@ module Conreality::Database
     # @raise  [NoSuchRow] if the `SELECT` query failed to match a row and `default_value` was not given
     def get(name, default_value = NOTHING)
       table_name, key_attr, key = self.class.table_name, self.class.key_attr, self.key
-      @client.exec_with_params("SELECT #{q(name)} FROM public.#{q(table_name)} WHERE #{q(key_attr)} = $1 LIMIT 1", key) do |result|
+      @client.exec_with_params("SELECT #{q(name)} FROM #{q(SCHEMA)}.#{q(table_name)} WHERE #{q(key_attr)} = $1 LIMIT 1", key) do |result|
         if result.num_tuples.zero? && default_value.equal?(NOTHING)
           raise NoSuchRow, "Failed to select row <<#{key}>> from table '#{table_name}'"
         end
@@ -114,7 +116,7 @@ module Conreality::Database
     # @raise  [NoSuchRow] if the `UPDATE` query failed to match a row
     def set!(name, value)
       table_name, key_attr, key = self.class.table_name, self.class.key_attr, self.key
-      @client.exec_with_params("UPDATE public.#{q(table_name)} SET #{q(name)} = $1 WHERE #{q(key_attr)} = $2", value, key) do |result|
+      @client.exec_with_params("UPDATE #{q(SCHEMA)}.#{q(table_name)} SET #{q(name)} = $1 WHERE #{q(key_attr)} = $2", value, key) do |result|
         if result.cmd_tuples.zero?
           raise NoSuchRow, "Failed to update row <<#{key}>> in table '#{table_name}'"
         end
