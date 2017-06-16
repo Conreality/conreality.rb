@@ -2,38 +2,39 @@ module Conreality
   ##
   # Represents a Conreality asset.
   class Asset < Object
-    TABLE = :asset
+    TABLE = :object_asset
     KEY   = :uuid
 
     ##
     # The asset's nickname.
     #
     # @return [String]
-    attr_reader :nick
+    attr_accessor :nick
 
     ##
     # The asset's full name.
     #
     # @return [String]
-    attr_reader :name
+    attr_accessor :name
 
     ##
     # The asset's IPv4/IPv6 address.
     #
     # @return [String]
-    attr_reader :ip_addr
+    attr_accessor :ip_addr
 
     ##
     # The asset's avatar image.
     #
     # @return [Binary]
-    attr_reader :avatar
+    attr_accessor :avatar
+    attr_binary   :avatar
 
     ##
     # The asset's deployed software version.
     #
     # @return [String]
-    attr_reader :version
+    attr_accessor :version
 
     ##
     # @param client [Client]

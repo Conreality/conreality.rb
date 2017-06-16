@@ -15,13 +15,13 @@ module Conreality
     # The theater's designated label.
     #
     # @return [String]
-    attr_reader :label
+    attr_accessor :label
 
     ##
     # The theater's origin location (as GPS coordinates).
     #
     # @return [?]
-    attr_reader :location
+    attr_accessor :location
 
     ##
     # @param client [Client]

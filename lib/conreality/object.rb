@@ -21,49 +21,49 @@ module Conreality
     # The theater that the object is located in.
     #
     # @return [Theater]
-    attr_reader :theater
+    attr_accessor :theater
 
     ##
     # The group, if any, that the object belongs to.
     #
     # @return [Group]
-    attr_reader :group
+    attr_accessor :group
 
     ##
     # The object's designated label.
     #
     # @return [String]
-    attr_reader :label
+    attr_accessor :label
 
     ##
     # The object's current position (as 3D coordinates relative to its theater).
     #
     # @return [?]
-    attr_reader :position
+    attr_accessor :position
 
     ##
     # The object's current orientation (in radians relative to north).
     #
     # @return [Float]
-    attr_reader :orientation
+    attr_accessor :orientation
 
     ##
     # The object's estimated mass (in kilograms).
     #
     # @return [Float]
-    attr_reader :mass
+    attr_accessor :mass
 
     ##
     # The object's determined radius (in meters).
     #
     # @return [Float]
-    attr_reader :radius
+    attr_accessor :radius
 
     ##
     # The object's estimated color (as a 24-bit RGB value).
     #
     # @return [Integer]
-    attr_reader :color
+    attr_accessor :color
 
     ##
     # @param client [Client]

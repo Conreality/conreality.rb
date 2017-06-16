@@ -34,6 +34,7 @@ module Conreality
     #
     # @return [Binary]
     attr_reader :audio
+    attr_binary :audio
 
     ##
     # @param client [Client]

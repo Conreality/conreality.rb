@@ -2,32 +2,32 @@ module Conreality
   ##
   # Represents a Conreality camera.
   class Camera < Object
-    TABLE = :camera
+    TABLE = :object_camera
     KEY   = :uuid
 
     ##
     # The camera's resolution (in 2D pixels).
     #
     # @return [Array(Integer, Integer)]
-    attr_reader :resolution
+    attr_accessor :resolution
 
     ##
     # The camera's image format.
     #
     # @return [String]
-    attr_reader :format
+    attr_accessor :format
 
     ##
     # The camera's frame rate (per second).
     #
     # @return [Integer]
-    attr_reader :fps
+    attr_accessor :fps
 
     ##
     # The camera's f-number (the f/N focal ratio).
     #
     # @return [Integer]
-    attr_reader :fnumber
+    attr_accessor :fnumber
 
     ##
     # @param client [Client]

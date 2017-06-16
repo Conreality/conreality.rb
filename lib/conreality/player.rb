@@ -2,38 +2,39 @@ module Conreality
   ##
   # Represents a Conreality player.
   class Player < Object
-    TABLE = :player
+    TABLE = :object_player
     KEY   = :uuid
 
     ##
     # The player's nickname.
     #
     # @return [String]
-    attr_reader :nick
+    attr_accessor :nick
 
     ##
     # The player's full name.
     #
     # @return [String]
-    attr_reader :name
+    attr_accessor :name
 
     ##
     # The player's IPv4/IPv6 address.
     #
     # @return [String]
-    attr_reader :ip_addr
+    attr_accessor :ip_addr
 
     ##
     # The player's avatar image.
     #
     # @return [Binary]
-    attr_reader :avatar
+    attr_accessor :avatar
+    attr_binary   :avatar
 
     ##
     # The player's primary language.
     #
     # @return [String]
-    attr_reader :language
+    attr_accessor :language
 
     ##
     # @param client [Client]

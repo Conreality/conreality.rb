@@ -21,7 +21,7 @@ module Conreality
     # The binary's MIME content type.
     #
     # @return [String]
-    attr_reader :type
+    attr_accessor :type
 
     ##
     # The binary data.
