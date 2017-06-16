@@ -48,7 +48,17 @@ module Conreality
     #
     # @return [Boolean]
     def has_camera?
-      nil # TODO
+      @client.exec_with_params("SELECT COUNT(*) FROM public.#{q(:camera)} WHERE #{q(:uuid)} = $1 LIMIT 1", self.key) do |result|
+        !!result.num_tuples.nonzero?
+      end
+    end
+
+    ##
+    # Returns the bodycam, if any, of this player.
+    #
+    # @return [Camera, nil]
+    def camera
+      self.has_camera? ? self.as_camera : nil
     end
 
     ##
