@@ -1,6 +1,6 @@
 module Conreality
   module Database
-    SCHEMA  = :public
+    SCHEMA  = :conreality
 
     NOTHING = Object.new.freeze
   end # Database
