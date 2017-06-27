@@ -1,15 +1,33 @@
+BUNDLE = bundle
+RAKE   = $(BUNDLE) exec rake
+
+PACKAGE = conreality
+VERSION = `cat VERSION`
+
+SOURCES =
+
+BINARIES =
+
+pkg/$(PACKAGE)-$(VERSION).gem: $(SOURCES)
+	$(RAKE) build
+
 all: build
 
-build: Rakefile
-	bundle exec rake build
+build: Rakefile pkg/$(PACKAGE)-$(VERSION).gem
 
-check: Rakefile
-	bundle exec rake spec
+check: Rakefile $(SOURCES)
+	$(RAKE) spec
 
-install: build
-	bundle exec rake install
+dist: pkg/$(PACKAGE)-$(VERSION).gem
+
+install: Rakefile pkg/$(PACKAGE)-$(VERSION).gem
+	$(RAKE) install
 
 clean:
-	rm -f *~ *.gem
+	@rm -f *~ *.gem pkg/*
 
-.PHONY: build check install clean
+distclean: clean
+
+mostlyclean: clean
+
+.PHONY: build check install clean distclean mostlyclean
