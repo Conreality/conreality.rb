@@ -12,4 +12,5 @@ require 'conreality/message'
 require 'conreality/theater'
 
 require 'conreality/client'
+require 'conreality/scope'
 require 'conreality/session'

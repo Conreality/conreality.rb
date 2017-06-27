@@ -38,18 +38,18 @@ module Conreality
     # @!group Database transactions
 
     ##
-    # @yield  [transaction]
-    # @yieldparam  transaction [Database::Transaction]
+    # @yield  [scope]
+    # @yieldparam  scope [Scope]
     # @yieldreturn [void]
     # @return [void]
     def open(&block)
-      tx = Database::Transaction.new(self)
+      scope = Scope.new(self)
       if @conn.transaction_status.zero?
         # not yet in transaction scope
-        @conn.transaction { |_| block.call(tx) }
+        @conn.transaction { |_| block.call(scope) }
       else
         # already in transaction scope
-        block.call(tx)
+        block.call(scope)
       end
     end
 

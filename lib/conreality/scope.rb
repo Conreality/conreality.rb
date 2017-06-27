@@ -1,7 +1,7 @@
-module Conreality::Database
+module Conreality
   ##
-  # Encapsulates a database transaction.
-  class Transaction
+  # A transactional scope.
+  class Scope
     ##
     # @param client [Client]
     def initialize(client)
@@ -9,7 +9,7 @@ module Conreality::Database
     end
 
     ##
-    # Returns a developer-friendly representation of this transaction.
+    # Returns a developer-friendly representation of this scope.
     #
     # @return [String]
     def inspect
@@ -102,5 +102,5 @@ module Conreality::Database
     end
 
     # @!endgroup
-  end # Transaction
-end # Conreality::Database
+  end # Scope
+end # Conreality

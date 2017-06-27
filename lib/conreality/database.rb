@@ -8,4 +8,3 @@ end # Conreality
 
 require 'conreality/database/error'
 require 'conreality/database/row'
-require 'conreality/database/transaction'
