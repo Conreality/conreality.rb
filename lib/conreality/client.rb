@@ -35,21 +35,21 @@ module Conreality
       sprintf("#<%s:%#0x>", self.class.name, self.__id__)
     end
 
-    # @!group Database transactions
+    # @!group Action execution
 
     ##
-    # @yield  [scope]
-    # @yieldparam  scope [Scope]
+    # @yield  [action]
+    # @yieldparam  action [Action]
     # @yieldreturn [void]
     # @return [void]
-    def open(&block)
-      scope = Scope.new(self)
+    def execute(&block)
+      action = Action.new(self)
       if @conn.transaction_status.zero?
         # not yet in transaction scope
-        @conn.transaction { |_| block.call(scope) }
+        @conn.transaction { |_| block.call(action) }
       else
         # already in transaction scope
-        block.call(scope)
+        block.call(action)
       end
     end
 

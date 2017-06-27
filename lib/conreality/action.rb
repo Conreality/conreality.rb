@@ -1,7 +1,7 @@
 module Conreality
   ##
-  # A transactional scope.
-  class Scope
+  # A transaction-scoped action.
+  class Action
     ##
     # @param client [Client]
     def initialize(client)
@@ -9,7 +9,7 @@ module Conreality
     end
 
     ##
-    # Returns a developer-friendly representation of this scope.
+    # Returns a developer-friendly representation of this action.
     #
     # @return [String]
     def inspect
@@ -102,5 +102,5 @@ module Conreality
     end
 
     # @!endgroup
-  end # Scope
+  end # Action
 end # Conreality

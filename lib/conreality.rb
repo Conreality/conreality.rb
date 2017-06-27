@@ -11,6 +11,6 @@ require 'conreality/event'
 require 'conreality/message'
 require 'conreality/theater'
 
+require 'conreality/action'
 require 'conreality/client'
-require 'conreality/scope'
 require 'conreality/session'
