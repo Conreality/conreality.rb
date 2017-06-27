@@ -38,10 +38,10 @@ module Conreality
     attr_wrapper :audio, :Binary
 
     ##
-    # @param client [Client]
-    # @param id     [#to_i]
-    def initialize(client, id)
-      super(client)
+    # @param session [Session]
+    # @param id      [#to_i]
+    def initialize(session, id)
+      super(session)
       @id = id.to_i
     end
 

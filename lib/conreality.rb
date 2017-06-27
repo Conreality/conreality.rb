@@ -13,4 +13,5 @@ require 'conreality/theater'
 
 require 'conreality/action'
 require 'conreality/client'
+require 'conreality/game'
 require 'conreality/session'

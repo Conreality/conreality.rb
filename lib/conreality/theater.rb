@@ -24,10 +24,10 @@ module Conreality
     attr_accessor :location
 
     ##
-    # @param client [Client]
-    # @param uuid   [#to_s]
-    def initialize(client, uuid)
-      super(client)
+    # @param session [Session]
+    # @param uuid    [#to_s]
+    def initialize(session, uuid)
+      super(session)
       @uuid = uuid.to_s
     end
 

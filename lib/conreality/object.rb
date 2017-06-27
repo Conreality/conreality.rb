@@ -66,11 +66,11 @@ module Conreality
     attr_accessor :color
 
     ##
-    # @param client [Client]
+    # @param session [Session]
     # @param uuid   [#to_s]
-    def initialize(client, uuid)
-      super(client)
-      @uuid = uuid.to_s
+    def initialize(session, uuid)
+      super(session)
+      @uuid = uuid.to_s.freeze
     end
 
     ##
@@ -88,7 +88,7 @@ module Conreality
     #
     # @return [Asset]
     def as_asset
-      Asset.new(@client, @uuid)
+      Asset.new(@session, @uuid)
     end
 
     ##
@@ -96,7 +96,7 @@ module Conreality
     #
     # @return [Camera]
     def as_camera
-      Camera.new(@client, @uuid)
+      Camera.new(@session, @uuid)
     end
 
     ##
@@ -104,7 +104,7 @@ module Conreality
     #
     # @return [Player]
     def as_player
-      Player.new(@client, @uuid)
+      Player.new(@session, @uuid)
     end
 
     # @!endgroup
@@ -151,8 +151,8 @@ module Conreality
     # @param  text      [String] the message contents as text
     # @return [Message] the sent message
     def send_message(text)
-      @client.open do |transaction| # FIXME
-        transaction.send_message(self, text)
+      @session.execute do |action| # FIXME
+        action.send_message(self, text)
       end
     end
 

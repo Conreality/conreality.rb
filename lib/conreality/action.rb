@@ -3,9 +3,15 @@ module Conreality
   # A transaction-scoped action.
   class Action
     ##
-    # @param client [Client]
-    def initialize(client)
-      @client = client
+    # The client session this actions belongs to.
+    #
+    # @return [Session]
+    attr_reader :session
+
+    ##
+    # @param session [Session]
+    def initialize(session)
+      @session = session
     end
 
     ##
@@ -16,52 +22,7 @@ module Conreality
       sprintf("#<%s:%#0x>", self.class.name, self.__id__)
     end
 
-    # @!group Theaters
-
-    ##
-    # Returns the theater identified by the given UUID.
-    #
-    # @param  uuid [String] the theater's UUID
-    # @return [Theater] the theater
-    def find_theater(uuid)
-      Conreality::Theater.new(@client, uuid)
-    end
-
-    ##
-    # @todo
-    def each_theater(&block)
-      # TODO
-    end
-
-    # @!endgroup
-
-    # @!group Objects
-
-    ##
-    # Returns the object identified by the given UUID.
-    #
-    # @param  uuid [String] the object's UUID
-    # @return [Object] the object
-    def find_object(uuid)
-      Conreality::Object.new(@client, uuid)
-    end
-
-    ##
-    # @todo
-    def each_object(&block)
-      # TODO
-    end
-
-    # @!endgroup
-
     # @!group Events
-
-    ##
-    # @todo
-    # @return [Event] the event
-    def find_event(id)
-      # TODO
-    end
 
     ##
     # @param  predicate [String] a predicate string
@@ -73,20 +34,13 @@ module Conreality
       subject   = (subject.respond_to?(:uuid) ? subject.uuid : subject).to_s
       object    = object ? (object.respond_to?(:uuid) ? object.uuid : object).to_s : nil
 
-      result = @client.call_proc_with_result(:event_send, args: [subject, predicate, object])
-      result ? Conreality::Event.new(@client, result.to_i) : nil
+      result = @session.client.call_proc_with_result(:event_send, args: [predicate, subject, object])
+      result ? Conreality::Event.new(@session, result.to_i) : nil
     end
 
     # @!endgroup
 
     # @!group Messaging
-
-    ##
-    # @todo
-    # @return [Message] the message
-    def find_message(id)
-      # TODO
-    end
 
     ##
     # @param  sender    [Object, UUID] the sending asset or player
@@ -97,8 +51,8 @@ module Conreality
       sender = (sender.respond_to?(:uuid) ? sender.uuid : sender).to_s
       text = text.to_s
 
-      result = @client.call_proc_with_result(:message_send, args: [sender, text])
-      result ? Conreality::Message.new(@client, result.to_i) : nil
+      result = @session.client.call_proc_with_result(:message_send, args: [sender, text])
+      result ? Conreality::Message.new(@session, result.to_i) : nil
     end
 
     # @!endgroup

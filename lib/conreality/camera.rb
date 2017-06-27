@@ -30,10 +30,10 @@ module Conreality
     attr_accessor :fnumber
 
     ##
-    # @param client [Client]
-    # @param uuid   [#to_s]
-    def initialize(client, uuid)
-      super(client, uuid)
+    # @param session [Session]
+    # @param uuid    [#to_s]
+    def initialize(session, uuid)
+      super(session, uuid)
     end
   end # Camera
 end # Conreality

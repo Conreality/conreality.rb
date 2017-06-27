@@ -37,10 +37,10 @@ module Conreality
     attr_accessor :language
 
     ##
-    # @param client [Client]
-    # @param uuid   [#to_s]
-    def initialize(client, uuid)
-      super(client, uuid)
+    # @param session [Session]
+    # @param uuid    [#to_s]
+    def initialize(session, uuid)
+      super(session, uuid)
     end
 
     ##
@@ -48,7 +48,7 @@ module Conreality
     #
     # @return [Boolean]
     def has_camera?
-      @client.exec_with_params("SELECT COUNT(*) FROM #{q(Database::SCHEMA)}.#{q(:camera)} WHERE #{q(:uuid)} = $1 LIMIT 1", self.key) do |result|
+      @session.client.exec_with_params("SELECT COUNT(*) FROM #{q(Database::SCHEMA)}.#{q(:camera)} WHERE #{q(:uuid)} = $1 LIMIT 1", self.key) do |result|
         !!result.num_tuples.nonzero?
       end
     end

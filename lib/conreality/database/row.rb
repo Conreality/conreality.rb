@@ -5,9 +5,9 @@ module Conreality::Database
     SCHEMA = Conreality::Database::SCHEMA
 
     ##
-    # @param client [Client]
-    def initialize(client)
-      @client = client
+    # @param session [Session]
+    def initialize(session)
+      @session = session
     end
 
     ##
@@ -65,7 +65,7 @@ module Conreality::Database
       self.send(:define_method, attr_name) do
         klass = find_class(class_name)
         key = self.get(attr_name)
-        key ? klass.new(@client, key) : nil
+        key ? klass.new(@session, key) : nil
       end
       self.send(:define_method, "#{attr_name}=") do |value|
         case value
@@ -99,7 +99,7 @@ module Conreality::Database
     # @raise  [NoSuchRow] if the `SELECT` query failed to match a row and `default_value` was not given
     def get(name, default_value = NOTHING)
       table_name, key_attr, key = self.class.table_name, self.class.key_attr, self.key
-      @client.exec_with_params("SELECT #{q(name)} FROM #{q(SCHEMA)}.#{q(table_name)} WHERE #{q(key_attr)} = $1 LIMIT 1", key) do |result|
+      @session.client.exec_with_params("SELECT #{q(name)} FROM #{q(SCHEMA)}.#{q(table_name)} WHERE #{q(key_attr)} = $1 LIMIT 1", key) do |result|
         if result.num_tuples.zero? && default_value.equal?(NOTHING)
           raise NoSuchRow, "Failed to select row <<#{key}>> from table '#{table_name}'"
         end
@@ -116,7 +116,7 @@ module Conreality::Database
     # @raise  [NoSuchRow] if the `UPDATE` query failed to match a row
     def set!(name, value)
       table_name, key_attr, key = self.class.table_name, self.class.key_attr, self.key
-      @client.exec_with_params("UPDATE #{q(SCHEMA)}.#{q(table_name)} SET #{q(name)} = $1 WHERE #{q(key_attr)} = $2", value, key) do |result|
+      @session.client.exec_with_params("UPDATE #{q(SCHEMA)}.#{q(table_name)} SET #{q(name)} = $1 WHERE #{q(key_attr)} = $2", value, key) do |result|
         if result.cmd_tuples.zero?
           raise NoSuchRow, "Failed to update row <<#{key}>> in table '#{table_name}'"
         end
@@ -125,7 +125,7 @@ module Conreality::Database
 
   private
 
-    def q(s); @client.conn.quote_ident(s.to_s); end
+    def q(s); @session.client.connection.quote_ident(s.to_s); end
 
     def find_class(class_name)
       case class_name

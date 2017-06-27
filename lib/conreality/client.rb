@@ -9,22 +9,13 @@ module Conreality
     # The PostgreSQL socket connection.
     #
     # @return [PG::Connection]
-    attr_accessor :conn
+    attr_reader :connection
 
     ##
-    # The current session.
-    #
-    # @return [Session]
-    attr_accessor :session
-
-    ##
-    # @param  options [Hash]
-    # @option options [String] :dbname
-    def initialize(options = {})
-      @conn = PG.connect(options)
-      @conn.type_map_for_results = PG::BasicTypeMapForResults.new(@conn)
-      @session = Session.new(self)
-      @session.start!
+    # @param master_host [String]
+    def initialize(master_host)
+      @connection = PG.connect(dbname: master_host, user: "00000000-0000-0000-0000-000000000000")
+      @connection.type_map_for_results = PG::BasicTypeMapForResults.new(@connection)
     end
 
     ##
@@ -35,22 +26,28 @@ module Conreality
       sprintf("#<%s:%#0x>", self.class.name, self.__id__)
     end
 
-    # @!group Action execution
+    # @!group Connection management
 
     ##
-    # @yield  [action]
-    # @yieldparam  action [Action]
-    # @yieldreturn [void]
+    # TODO
+    #
     # @return [void]
-    def execute(&block)
-      action = Action.new(self)
-      if @conn.transaction_status.zero?
-        # not yet in transaction scope
-        @conn.transaction { |_| block.call(action) }
-      else
-        # already in transaction scope
-        block.call(action)
-      end
+    def disconnect!
+      @connection = nil
+    end
+
+    # @!endgroup
+
+    # @!group Session interface
+
+    ##
+    # TODO
+    #
+    # @param  agent_uuid [String]
+    # @param  secret [String]
+    # @return [Session]
+    def login(agent_uuid, secret = nil)
+      Session.new(self) # TODO
     end
 
     # @!endgroup
@@ -101,13 +98,13 @@ module Conreality
     # @param  args [Array]
     # @return [PG::Result]
     def exec_with_params(query, *args, &block)
-      @conn.exec_params(query, args, 0, &block)
+      @connection.exec_params(query, args, 0, &block)
     end
 
     # @!endgroup
 
   private
 
-    def q(s); @conn.quote_ident(s.to_s); end
+    def q(s); @connection.quote_ident(s.to_s); end
   end # Client
 end # Conreality
