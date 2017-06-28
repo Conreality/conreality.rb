@@ -1,12 +1,11 @@
 BUNDLE = bundle
 RAKE   = $(BUNDLE) exec rake
 
-PACKAGE = conreality
-VERSION = `cat VERSION`
+PACKAGE := conreality
+VERSION := $(shell cat VERSION)
 
 SOURCES := $(wildcard lib/*.rb lib/*/*.rb lib/*/*/*.rb)
-
-BINARIES =
+OUTPUTS :=
 
 pkg/$(PACKAGE)-$(VERSION).gem: $(SOURCES)
 	$(RAKE) build
