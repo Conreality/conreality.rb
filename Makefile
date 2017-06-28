@@ -4,7 +4,7 @@ RAKE   = $(BUNDLE) exec rake
 PACKAGE = conreality
 VERSION = `cat VERSION`
 
-SOURCES =
+SOURCES := $(wildcard lib/*.rb lib/*/*.rb lib/*/*/*.rb)
 
 BINARIES =
 
