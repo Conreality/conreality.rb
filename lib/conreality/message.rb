@@ -3,7 +3,7 @@
 module Conreality
   ##
   # Represents a Conreality message.
-  class Message #< Database::Row
+  class Message
     TABLE = :message
     KEY   = :id
 
@@ -24,7 +24,7 @@ module Conreality
     #
     # @return [Player, Asset]
     attr_reader :sender
-    attr_wrapper :sender, :Object
+    #attr_wrapper :sender, :Object
 
     ##
     # The message's contents as text.
@@ -37,14 +37,13 @@ module Conreality
     #
     # @return [Binary]
     attr_reader :audio
-    attr_wrapper :audio, :Binary
+    #attr_wrapper :audio, :Binary
 
     ##
     # @param session [Session]
     # @param id      [#to_i]
     def initialize(session, id)
-      super(session)
-      @id = id.to_i
+      @session, @id = session, id.to_i
     end
 
     ##

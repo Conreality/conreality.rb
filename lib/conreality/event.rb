@@ -3,7 +3,7 @@
 module Conreality
   ##
   # Represents a Conreality event.
-  class Event #< Database::Row
+  class Event
     TABLE = :event
     KEY   = :id
 
@@ -22,7 +22,7 @@ module Conreality
     ##
     # The event's predicate (an action or verb).
     #
-    # @return [String]
+    # @return [Symbol]
     attr_reader :predicate
 
     ##
@@ -30,21 +30,20 @@ module Conreality
     #
     # @return [Object]
     attr_reader :subject
-    attr_wrapper :subject, :Object
+    #attr_wrapper :subject, :Object
 
     ##
     # The object (i.e., target) of the predicate.
     #
     # @return [Object]
     attr_reader :object
-    attr_wrapper :object, :Object
+    #attr_wrapper :object, :Object
 
     ##
     # @param session [Session]
     # @param id      [#to_i]
     def initialize(session, id)
-      super(session)
-      @id = id.to_i
+      @session, @id = session, id.to_i
     end
 
     ##
