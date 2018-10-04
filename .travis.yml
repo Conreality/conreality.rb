@@ -6,7 +6,7 @@ script: bundle exec rake spec
 env:
   - CI=true
 rvm:
-  - 2.2
+  - 2.5
   - jruby-head
 cache: bundler
 matrix:
