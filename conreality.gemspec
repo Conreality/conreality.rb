@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.date               = File.mtime('VERSION').strftime('%Y-%m-%d')
 
   gem.name               = 'conreality'
-  gem.homepage           = 'https://github.com/conreality/conreality.rb'
+  gem.homepage           = 'https://sdk.conreality.org/ruby/'
   gem.license            = 'Public Domain' if gem.respond_to?(:license=)
   gem.summary            = 'Conreality Software Development Kit (SDK) for Ruby.'
   gem.description        = gem.summary
