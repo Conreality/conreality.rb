@@ -1,7 +1,9 @@
+# This is free and unencumbered software released into the public domain.
+
 module Conreality
   ##
   # Represents a Conreality event.
-  class Event < Database::Row
+  class Event #< Database::Row
     TABLE = :event
     KEY   = :id
 

@@ -1,7 +1,9 @@
+# This is free and unencumbered software released into the public domain.
+
 module Conreality
   ##
   # Represents a Conreality message.
-  class Message < Database::Row
+  class Message #< Database::Row
     TABLE = :message
     KEY   = :id
 

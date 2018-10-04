@@ -1,7 +1,9 @@
+# This is free and unencumbered software released into the public domain.
+
 module Conreality
   ##
   # Represents a Conreality theater of operations.
-  class Theater < Database::Row
+  class Theater #< Database::Row
     TABLE = :theater
     KEY   = :uuid
 

@@ -1,3 +1,5 @@
+# This is free and unencumbered software released into the public domain.
+
 module Conreality
   module VERSION
     FILE = File.expand_path('../../VERSION', __dir__).freeze

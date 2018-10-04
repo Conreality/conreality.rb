@@ -1,7 +1,9 @@
+# This is free and unencumbered software released into the public domain.
+
 module Conreality
   ##
   # Represents a Conreality binary.
-  class Binary < Database::Row
+  class Binary #< Database::Row
     TABLE = :binary
     KEY   = :id
 

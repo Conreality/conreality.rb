@@ -1,4 +1,6 @@
-require 'pg'
+# This is free and unencumbered software released into the public domain.
+
+require 'conreality/rpc'
 require 'uuid'
 
 module Conreality
@@ -6,16 +8,9 @@ module Conreality
   # Client for accessing a Conreality master server.
   class Client
     ##
-    # The PostgreSQL socket connection.
-    #
-    # @return [PG::Connection]
-    attr_reader :connection
-
-    ##
     # @param master_host [String]
     def initialize(master_host)
-      @connection = PG.connect(dbname: master_host, user: "00000000-0000-0000-0000-000000000000")
-      @connection.type_map_for_results = PG::BasicTypeMapForResults.new(@connection)
+      @public = Conreality::RPC::Public::Stub.new(master_host, :this_channel_is_insecure)
     end
 
     ##
@@ -33,7 +28,7 @@ module Conreality
     #
     # @return [void]
     def disconnect!
-      @connection = nil
+      @public = nil
     end
 
     # @!endgroup
@@ -52,59 +47,8 @@ module Conreality
 
     # @!endgroup
 
-    # @!group Database interface
-
-    ##
-    # @param  proc_name [#to_s]
-    # @param  args [Array]
-    # @param  cast [#to_s, nil]
-    # @return [any]
-    def call_proc_with_result(proc_name, args: [], cast: nil)
-      self.call_proc_by_name(proc_name, args: args, cast: cast) do |results|
-        results.getvalue(0, 0)
-      end
-    end
-
-    ##
-    # @param  proc_name [#to_s]
-    # @param  args [Array]
-    # @param  cast [#to_s, nil]
-    # @return [any]
-    def call_proc_by_name(proc_name, args: [], cast: nil, &block)
-      proc_sig = "#{q(Database::SCHEMA)}.#{q(proc_name)}("
-      case args
-        when Array
-          proc_sig << 1.upto(args.size).map { |i| "$#{i}" }.join(', ') unless args.empty?
-        when Hash
-          raise TypeError # TODO
-        else raise TypeError
-      end
-      proc_sig << ")"
-      self.call_proc_by_signature(proc_sig, args: args, cast: cast, &block)
-    end
-
-    ##
-    # @param  proc_sig [#to_s]
-    # @param  args [Array]
-    # @param  cast [#to_s, nil]
-    # @return [any]
-    def call_proc_by_signature(proc_sig, args: [], cast: nil, &block)
-      query_body = cast ? "#{proc_sig}::#{cast}" : proc_sig.to_s
-      self.exec_with_params("SELECT #{query_body}", *args, &block)
-    end
-
-    ##
-    # @param  query [String]
-    # @param  args [Array]
-    # @return [PG::Result]
-    def exec_with_params(query, *args, &block)
-      @connection.exec_params(query, args, 0, &block)
-    end
-
-    # @!endgroup
-
   private
 
-    def q(s); @connection.quote_ident(s.to_s); end
+    # TODO
   end # Client
 end # Conreality
