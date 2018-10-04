@@ -1,8 +1,8 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 gemspec
 
-# https://rubygems.org/gems/pg
-gem 'pg'
+# https://rubygems.org/gems/google-protobuf
+gem 'google-protobuf'
 
 # https://rubygems.org/gems/uuid
 gem 'uuid'
