@@ -1,7 +1,8 @@
 # This is free and unencumbered software released into the public domain.
 
-require 'conreality/rpc'
 require 'uuid'
+
+require_relative 'rpc'
 
 module Conreality
   ##
