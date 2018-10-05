@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 gemspec
 
+# https://rubygems.org/gems/drylib
+gem 'drylib'
+
 # https://rubygems.org/gems/grpc
 gem 'grpc'
 

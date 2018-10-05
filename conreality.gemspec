@@ -32,13 +32,14 @@ Gem::Specification.new do |gem|
   gem.extensions         = %w()
   gem.test_files         = %w()
 
-  gem.required_ruby_version      = '>= 2.5.1'         # Ubuntu 18.04 LTS
-  gem.required_rubygems_version  = '>= 2.7.6'         # Ruby 2.5.1
+  gem.required_ruby_version      = '>= 2.5.1'          # Ubuntu 18.04 LTS
+  gem.required_rubygems_version  = '>= 2.7.6'          # Ruby 2.5.1
   gem.requirements               = []
-  gem.add_development_dependency 'rake',  '>= 12.3.1' # Ruby 2.5.1
-  gem.add_development_dependency 'rspec', '>= 3.8'
-  gem.add_development_dependency 'yard' , '>= 0.9'
-  gem.add_runtime_dependency     'grpc',  '~> 1.15'
-  gem.add_runtime_dependency     'uuid',  '~> 2.3', '>= 2.3.9'
+  gem.add_development_dependency 'rake',   '>= 12.3.1' # Ruby 2.5.1
+  gem.add_development_dependency 'rspec',  '>= 3.8'
+  gem.add_development_dependency 'yard' ,  '>= 0.9'
+  gem.add_runtime_dependency     'drylib'
+  gem.add_runtime_dependency     'grpc',   '~> 1.15'
+  gem.add_runtime_dependency     'uuid',   '~> 2.3', '>= 2.3.9'
   gem.post_install_message       = nil
 end
