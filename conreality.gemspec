@@ -14,6 +14,16 @@ Gem::Specification.new do |gem|
   gem.author             = 'Conreality.org'
   gem.email              = 'conreality@googlegroups.com'
 
+  gem.metadata = {
+    'bug_tracker_uri'   => 'https://github.com/conreality/conreality.rb/issues',
+    'changelog_uri'     => 'https://github.com/conreality/conreality.rb/blob/master/CHANGES.rst',
+    'documentation_uri' => 'https://www.rubydoc.info/github/conreality/conreality.rb/master',
+    'homepage_uri'      => gem.homepage,
+    'mailing_list_uri'  => 'https://groups.google.com/forum/#!forum/conreality',
+    'source_code_uri'   => 'https://github.com/conreality/conreality.rb',
+    'wiki_uri'          => 'https://wiki.conreality.org/Ruby',
+  }
+
   gem.platform           = Gem::Platform::RUBY
   gem.files              = %w(AUTHORS CREDITS.rst README UNLICENSE VERSION) + Dir.glob('lib/**/*.rb')
   gem.bindir             = %q(bin)
