@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
 
   gem.name               = 'conreality'
   gem.homepage           = 'https://sdk.conreality.org/ruby/'
-  gem.license            = 'Public Domain' if gem.respond_to?(:license=)
+  gem.license            = 'Unlicense'
   gem.summary            = 'Conreality Software Development Kit (SDK) for Ruby.'
   gem.description        = gem.summary
 
